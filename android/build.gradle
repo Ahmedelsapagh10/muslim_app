@@ -1,0 +1,36 @@
+buildscript {
+    ext.kotlin_version = '1.9.10'
+    repositories {
+        google()       // Required for Android dependencies
+        mavenCentral() // For general dependencies
+    }
+
+    dependencies {
+        // FlutterFire Configuration (no changes needed)
+        
+        classpath 'com.google.gms:google-services:4.3.15' // Firebase services
+        // Android Gradle plugin
+        classpath 'com.android.tools.build:gradle:7.2.2'   // Gradle plugin for Android
+        // Kotlin Gradle plugin (referencing the version defined above)
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()       // Required for Android dependencies
+        mavenCentral() // For general dependencies
+    }
+}
+
+rootProject.buildDir = '../build'  // Defines where to build artifacts
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}" // Specifies subproject build dirs
+    project.evaluationDependsOn(':app') // Ensures the :app project is evaluated before others
+}
+
+// Register a task to clean build directories
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
